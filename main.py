@@ -1,16 +1,12 @@
 def read_receipt_file():
-    with open("receipt.txt", encoding="utf8") as file:
-        data = [line.strip().replace("\n","").split(" | ") for line in file]
     cook_book = {}
-    # индекс названия блюда
-    ind1 = 0
-    # индекс кол-ва ингредиентов
-    ind2 = 1
-    while ind1 < len(data):
-        cook_book[data[ind1][0].lower()] = [{"ingr_name": data[ind2+i][0], "quantity": int(data[ind2+i][1]), "measure": data[ind2+i][2]}
-                                 for i in range(1, int(data[ind2][0]) + 1)]
-        ind1 += int(data[ind2][0]) + 2
-        ind2 += int(data[ind2][0]) + 2
+    with open("receipt.txt", encoding="utf8") as file:
+        for line in file:
+            tempname = line.strip().replace("\n", "").lower()
+            cook_book[tempname] = []
+            for i in range(int(file.readline().strip().replace("\n", ""))):
+                data = file.readline().strip().replace("\n", "").split(" | ")
+                cook_book[tempname].append({"ingr_name": data[0], "quantity": int(data[1]), "measure": data[2]})
     return cook_book
 
 
